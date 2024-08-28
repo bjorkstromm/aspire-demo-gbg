@@ -1,0 +1,27 @@
+k --kubeconfig $kconfig describe executable
+k --kubeconfig $kconfig get executable
+k --kubeconfig $kconfig api-resources
+$kconfig = $(Get-WmiObject Win32_Process -Filter "name = 'dcp.exe'").CommandLine.Split(" ")[-3]
+$(Get-WmiObject Win32_Process -Filter "name = 'dcp.exe'").CommandLine
+cd .\Swetugg.AppHost\
+dotnet add package Aspire.Hosting.Redis
+cd ..
+cd .\Swetugg.Web\
+dotnet add package Aspire.StackExchange.Redis.OutputCaching
+git apply .\scripts\redis.patch
+git apply -R .\scripts\redis.patch
+dotnet user-secrets list
+az login --tenant martinbjorkstromgmail.onmicrosoft.com
+az account set -s e9436ff7-7d24-4e06-b004-75e045bcc60a
+az account show
+code manifest.json
+dotnet run
+cat manifest.json | jq -C
+dotnet run -- --publisher manifest --output-path manifest.json
+azd up
+azd infra synth
+azd init -s e9436ff7-7d24-4e06-b004-75e045bcc60a
+docker start $(docker ps -f ancestor=redis -n 1 -q)
+docker stop $(docker ps -f ancestor=redis -q)
+docker ps -f ancestor=redis
+curl http://localhost:5277/health | jq -C

@@ -1,0 +1,55 @@
+diff --git a/Swetugg.AppHost/Program.cs b/Swetugg.AppHost/Program.cs
+index a239642..fd7a759 100644
+--- a/Swetugg.AppHost/Program.cs
++++ b/Swetugg.AppHost/Program.cs
+@@ -2,8 +2,11 @@ var builder = DistributedApplication.CreateBuilder(args);
+ 
+ var apiService = builder.AddProject<Projects.Swetugg_ApiService>("apiservice");
+ 
++var redis = builder.AddRedis("redis");
++
+ builder.AddProject<Projects.Swetugg_Web>("webfrontend")
+     .WithExternalHttpEndpoints()
+-    .WithReference(apiService);
++    .WithReference(apiService)
++    .WithReference(redis);
+ 
+ builder.Build().Run();
+diff --git a/Swetugg.AppHost/Swetugg.AppHost.csproj b/Swetugg.AppHost/Swetugg.AppHost.csproj
+index 2448ec3..b4484a4 100644
+--- a/Swetugg.AppHost/Swetugg.AppHost.csproj
++++ b/Swetugg.AppHost/Swetugg.AppHost.csproj
+@@ -16,6 +16,7 @@
+ 
+   <ItemGroup>
+     <PackageReference Include="Aspire.Hosting.AppHost" Version="8.1.0" />
++    <PackageReference Include="Aspire.Hosting.Redis" Version="8.1.0" />
+   </ItemGroup>
+ 
+ </Project>
+diff --git a/Swetugg.Web/Program.cs b/Swetugg.Web/Program.cs
+index 35a086b..2fa4d90 100644
+--- a/Swetugg.Web/Program.cs
++++ b/Swetugg.Web/Program.cs
+@@ -10,7 +10,7 @@ builder.AddServiceDefaults();
+ builder.Services.AddRazorComponents()
+     .AddInteractiveServerComponents();
+ 
+-builder.Services.AddOutputCache();
++builder.AddRedisOutputCache("redis");
+ 
+ builder.Services.AddHttpClient<WeatherApiClient>(client =>
+     {
+diff --git a/Swetugg.Web/Swetugg.Web.csproj b/Swetugg.Web/Swetugg.Web.csproj
+index b0f95eb..c59e682 100644
+--- a/Swetugg.Web/Swetugg.Web.csproj
++++ b/Swetugg.Web/Swetugg.Web.csproj
+@@ -10,4 +10,8 @@
+     <ProjectReference Include="..\Swetugg.ServiceDefaults\Swetugg.ServiceDefaults.csproj" />
+   </ItemGroup>
+ 
++  <ItemGroup>
++    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="8.1.0" />
++  </ItemGroup>
++
+ </Project>
