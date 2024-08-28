@@ -1,0 +1,35 @@
+diff --git a/Swetugg.AppHost/Program.cs b/Swetugg.AppHost/Program.cs
+index a239642..c7511a9 100644
+--- a/Swetugg.AppHost/Program.cs
++++ b/Swetugg.AppHost/Program.cs
+@@ -2,8 +2,17 @@ var builder = DistributedApplication.CreateBuilder(args);
+ 
+ var apiService = builder.AddProject<Projects.Swetugg_ApiService>("apiservice");
+ 
++var storage = builder.AddAzureStorage("storage")
++    .RunAsEmulator();
++var blobs = storage.AddBlobs("blobs");
++
++var servicebus = builder.AddAzureServiceBus("servicebus")
++    .AddQueue("queue")
++    .AddTopic("topic", ["subscription"]);
++
+ builder.AddProject<Projects.Swetugg_Web>("webfrontend")
+     .WithExternalHttpEndpoints()
++    .WithReference(blobs)
+     .WithReference(apiService);
+ 
+ builder.Build().Run();
+diff --git a/Swetugg.AppHost/Swetugg.AppHost.csproj b/Swetugg.AppHost/Swetugg.AppHost.csproj
+index 2448ec3..c230eb0 100644
+--- a/Swetugg.AppHost/Swetugg.AppHost.csproj
++++ b/Swetugg.AppHost/Swetugg.AppHost.csproj
+@@ -16,6 +16,8 @@
+ 
+   <ItemGroup>
+     <PackageReference Include="Aspire.Hosting.AppHost" Version="8.1.0" />
++    <PackageReference Include="Aspire.Hosting.Azure.ServiceBus" Version="8.1.0" />
++    <PackageReference Include="Aspire.Hosting.Azure.Storage" Version="8.1.0" />
+   </ItemGroup>
+ 
+ </Project>

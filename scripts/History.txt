@@ -4,6 +4,8 @@ k --kubeconfig $kconfig api-resources
 $kconfig = $(Get-WmiObject Win32_Process -Filter "name = 'dcp.exe'").CommandLine.Split(" ")[-3]
 $(Get-WmiObject Win32_Process -Filter "name = 'dcp.exe'").CommandLine
 dotnet add package Aspire.Hosting.Azure.Storage
+git apply .\scripts\azure.patch
+git apply -R .\scripts\azure.patch
 cd .\Swetugg.AppHost\
 dotnet add package Aspire.Hosting.Redis
 cd ..
