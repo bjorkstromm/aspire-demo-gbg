@@ -11,6 +11,10 @@ dotnet add package Aspire.StackExchange.Redis.OutputCaching
 git apply .\scripts\redis.patch
 git apply -R .\scripts\redis.patch
 dotnet user-secrets list
+dotnet user-secrets set azure:subscriptionid "e9436ff7-7d24-4e06-b004-75e045bcc60a"
+dotnet user-secrets set azure:location "westeurope"
+dotnet user-secrets set azure:resourcegroup "aspire-starter-gbg-rg"
+dotnet user-secrets set azure:allowresourcegroupcreation "true" 
 az login --tenant martinbjorkstromgmail.onmicrosoft.com
 az account set -s e9436ff7-7d24-4e06-b004-75e045bcc60a
 az account show
