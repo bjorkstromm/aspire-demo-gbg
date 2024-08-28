@@ -22,6 +22,7 @@ code manifest.json
 dotnet run
 cat manifest.json | jq -C
 dotnet run -- --publisher manifest --output-path manifest.json
+azd auth login --scope https://management.azure.com//.default
 azd up
 azd infra synth
 azd init -s e9436ff7-7d24-4e06-b004-75e045bcc60a
