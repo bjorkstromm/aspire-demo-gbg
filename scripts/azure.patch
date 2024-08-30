@@ -2,7 +2,7 @@ diff --git a/Swetugg.AppHost/Program.cs b/Swetugg.AppHost/Program.cs
 index a239642..c7511a9 100644
 --- a/Swetugg.AppHost/Program.cs
 +++ b/Swetugg.AppHost/Program.cs
-@@ -2,8 +2,17 @@ var builder = DistributedApplication.CreateBuilder(args);
+@@ -2,8 +2,18 @@ var builder = DistributedApplication.CreateBuilder(args);
  
  var apiService = builder.AddProject<Projects.Swetugg_ApiService>("apiservice");
  
@@ -14,10 +14,14 @@ index a239642..c7511a9 100644
 +    .AddQueue("queue")
 +    .AddTopic("topic", ["subscription"]);
 +
+ var redis = builder.AddRedis("redis");
+ 
  builder.AddProject<Projects.Swetugg_Web>("webfrontend")
      .WithExternalHttpEndpoints()
 +    .WithReference(blobs)
-     .WithReference(apiService);
++    .WithReference(servicebus)
+     .WithReference(apiService)
+     .WithReference(redis);
  
  builder.Build().Run();
 diff --git a/Swetugg.AppHost/Swetugg.AppHost.csproj b/Swetugg.AppHost/Swetugg.AppHost.csproj
@@ -28,6 +32,7 @@ index 2448ec3..c230eb0 100644
  
    <ItemGroup>
      <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.0" />
+     <PackageReference Include="Aspire.Hosting.Redis" Version="8.2.0" />
 +    <PackageReference Include="Aspire.Hosting.Azure.ServiceBus" Version="8.2.0" />
 +    <PackageReference Include="Aspire.Hosting.Azure.Storage" Version="8.2.0" />
    </ItemGroup>
