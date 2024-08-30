@@ -49,7 +49,7 @@ index b0f95eb..c59e682 100644
    </ItemGroup>
  
 +  <ItemGroup>
-+    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="8.1.0" />
++    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="8.2.0" />
 +  </ItemGroup>
 +
  </Project>
